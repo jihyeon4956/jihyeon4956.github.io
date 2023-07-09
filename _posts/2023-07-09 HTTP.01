@@ -1,0 +1,209 @@
+layout	title
+single
+[HTTP] 인터넷 네트워크 (IP, TCP, UDP, PORT, DNS)의 개념과 예시
+
+## **HTTP를 배워야 하는 이유**
+
+## **: 모든 것이 HTTP 위에서 동작한다.**
+
+> 앱 - 서버  
+> 서버 - 서버  
+> 모든 통신이 HTTP 프로토콜 기반으로 진행되기 때문에 HTTP를 필수로 알고 잘 사용할 수 있어야 한다.
+
+---
+
+## 🤔 컴퓨터는 어떻게 통신하는걸까?
+
+[##_Image|kage@bkTLMn/btsmRstRxZN/2IqGlQPLkySmyVAURRokdK/img.png|CDM|1.3|{"originWidth":553,"originHeight":211,"style":"alignCenter"}_##]
+
+1) 클라이언트와 서버가 바로 붙어있는 경우
+
+그냥 연결해서 바로 통신하면 됨
+
+[##_Image|kage@bp1fhm/btsmZglzQaU/Ki7T0fPakOKJU073GBmgwk/img.png|CDM|1.3|{"originWidth":497,"originHeight":188,"style":"alignCenter"}_##]
+
+2) 통신해야 하는 PC가 멀리 있는 경우 
+
+ex) 미국에서 한국으로 통신할 때
+
+\= 인터넷 망을 통해서 메세지를 보내야 함
+
+인터넷 망은 단순하지 않아서 수 많은 중간통신(노드)을 거쳐가게 됨
+
+그럼 어떤 규칙으로 어떻게 통신하는걸까?
+
+🙋‍♀ **IP(인터넷 프로토콜)**
+
+---
+
+## 🔷 IP(인터넷 프로토콜)
+
+> 1\. 지정한 IP 주소(IP Address)에 데이터 전달  
+> 2\. 패킷(Packet)이라는 통신 단위로 데이터 전달
+
+[##_Image|kage@6G6Jx/btsmQp5K1hL/UcJZIeTauUV6jHJJrwyPo0/img.png|CDM|1.3|{"originWidth":1266,"originHeight":698,"style":"alignCenter"}_##][##_Image|kage@lwXKu/btsmRNY4BDw/l0q1fkRVjVE4y4aKBVwZ4K/img.png|CDM|1.3|{"originWidth":1343,"originHeight":683,"style":"alignCenter"}_##]
+
+[##_Image|kage@8jt9E/btsmRr2L6fo/Cit5JxukzsWZDZhT85FT1k/img.png|CDM|1.3|{"originWidth":1179,"originHeight":739,"style":"alignCenter"}_##][##_Image|kage@c3yuxT/btsmSuyePwv/ZfOo8twMuGDjNhkw20F92K/img.png|CDM|1.3|{"originWidth":1328,"originHeight":739,"style":"alignCenter","caption":"Client에서 보냄"}_##]
+
+IP 패킷의 규칙에 맞게 만든 후 패킷을 전달한다.
+
+[##_Image|kage@XXqPz/btsmQDCn87j/8FcByTnKCiu6AcKqVSTQck/img.png|CDM|1.3|{"originWidth":1359,"originHeight":733,"style":"alignCenter","caption":"Server에서 보냄"}_##]
+
+서버에서도 답변내용을 패킷에 담아서 보낸다.
+
+노드들이 적절하게 클라이언트에게 전달해준다.
+
+> 🌟 IP 프로토콜의 한계  
+>   
+> 1\. 비연결성  
+> • 패킷을 받을 대상이 없거나 서비스 불능 상태여도 패킷 전송  
+> (패킷을 보냈는데 상대방의 컴퓨터가 꺼져있는 경우)  
+> (편지를 보냈는데 수신자가 그 주소에 살지 않는 경우와 비슷함)  
+>   
+> 2\. 비신뢰성  
+> • 중간에 패킷이 사라지면?  
+> • 패킷이 순서대로 안오면?  
+>   
+> 3\. 프로그램 구분  
+> • 같은 IP를 사용하는 서버에서 통신하는 애플리케이션이 둘 이상이면?
+
+#### 1\. 비연결성
+
+\- 대상이 서비스 불능상태에서 패킷을 전송함
+
+클라이언트: 대상 서버가 패킷을 받을 수 있는 상태인지 모른 상태에서 패킷을 전송함
+
+2\. 비신뢰성
+
+\- 패킷을 전송하는 서버가 모종의 이유로 소실되어도 서버는 모름
+
+\- ①"Hello" ②"Word"를 보냈는데 서버에서 받을 때 순서가 변경되어 ②"Hello" ①"Word" 이렇게 전달순서에 문제가 생긴채로 받은 경우
+
+## 🙄IP프로토콜은 이 문제를 해결해줄 수 없음
+
+⏩  TCP가 등장하게 됨
+
+---
+
+## **TCP**
+
+[##_Image|kage@bNPOv6/btsmQewxvoz/NSfkywrXmyOGWvVu5uCrLK/img.png|CDM|1.3|{"originWidth":872,"originHeight":476,"style":"alignCenter"}_##]
+
+[##_Image|kage@7d0VO/btsm1UQyx1m/uZFk1Uiep6nKY2GE1N3FH0/img.png|CDM|1.3|{"originWidth":1282,"originHeight":720,"style":"alignCenter"}_##]
+
+> 💬 미국에 사는 친구에서 "Hellow word"를 보내고 싶을 때  
+> 1\. SOCKET 라이브러리를 통해서 OS에 "Hellow word"를 넘김  
+> 2\. "Hellow word"라는 메세지에 TCP정보를 생성함  
+> 3\. TPC 밑에 있는 IP계층에 IP관련 정보를 담고 있는 패킷을 생성함  
+> 4\. 전송
+
+[##_Image|kage@bzj1QW/btsmRN6lqX2/lYYn70KC2UTXxcMSPIK1o1/img.png|CDM|1.3|{"originWidth":1349,"originHeight":806,"style":"alignCenter"}_##]
+
+IP만으로는 해결되지 않던 문제를 해결함
+
+> 🌟 TCP 특징  
+> 전송 제어 프로토콜(Transmission Control Protocol)  
+>   
+> • 연결지향 - TCP 3 way handshake (가상 연결)  
+>     -> 연결을 하고 보냄  
+> • 데이터 전달 보증  
+>     -> 메세지의 소실이 있는 경우 알 수 있음  
+> • 순서 보장
+
+TCP는 위와 같은 이유로 신뢰할 수 있는 프로토콜이며 현재는 대부분 TCP를 사용한다.
+
+[##_Image|kage@SdLPo/btsmYLfhmf7/OkEvUFMg8CjQhrxVNv9Rh1/img.png|CDM|1.3|{"originWidth":1256,"originHeight":759,"style":"alignCenter"}_##]
+
+1\. 클라이언트 -> 서버로 SYN을 보냄
+
+2\. 서버가 SYN+ACK를 클라이언트로 보내줌
+
+3\. 클라이언트가 알았다는 신호로 ACK를 보냄
+
+4\. 그 다음에 데이터를 전송해줌
+
+[##_Image|kage@br3Tsw/btsmRr3aMfj/tt7sFWUsFhPefyDqjJPwCk/img.png|CDM|1.3|{"originWidth":1492,"originHeight":625,"style":"alignCenter"}_##]
+
+보낸 순서인 1,2,3으로 도착하지 않았다면, 서버에 2번부터(잘못된 번호부터) 다시 보냄
+
+(TCP에 순서관련 정보가 있어서 가능함)
+
+> **🌟 UDP 특징  
+> **TPC랑 같은 계층에 있음   
+> 사용자 데이터그램 프로토콜(User Datagram Protocol)  
+> • 하얀 도화지에 비유**(기능이 거의 없음)**  
+> • 연결지향 X - TCP 3 way handshake X  
+> • 데이터 전달 보증 X  
+> • 순서 보장 X  
+>   
+> • 데이터 전달 및 순서가 보장되지 않지만, 단순하고 빠름
+
+즉, UDP는 IP와 거의 같다. (PORT +체크섬 정도만 추가됨)
+
+그럼 왜 사용하나?
+
+👉 TCP의 3 way handshake가 없기 때문에 속도가 빨라서 
+
+---
+
+## **PORT**
+
+[##_Image|kage@bLNiuT/btsmUIKbsYj/wQtKXSoXsvCPrBklr4Q3L1/img.png|CDM|1.3|{"originWidth":1200,"originHeight":700,"style":"alignCenter"}_##]
+
+한번에 여러가지 작업을 수행함
+
+🤔 패킷들이 내 IP로 들어올텐데 이게 게임, 화상통화, 웹 브라우저 요청 등 어디서 필요한 패킷인지 알 수가 없음
+
+이걸 어떻게 구별할것인지?
+
+\-> 출발지 PORT, 목적지 PORT
+
+> IP : 목적지 서버를 찾는것  
+> PORT : 서버 안에서 돌아가는 애플리케이션을 구별하는것
+
+> PORT - 같은 IP 내에서 프로세스 구분
+
+[##_Image|kage@b7cT5F/btsmQfIXsZb/bKfygpxNIk8m1TIR78YmJk/img.png|CDM|1.3|{"originWidth":1126,"originHeight":643,"style":"alignCenter"}_##]
+
+👆 이런식으로 구별함
+
+### **≒ IP가 아파트라면 PORT는 몇동 몇호를 나타낸다.**
+
+> • 0 ~ 65535 할당 가능  
+> • 0 ~ 1023: 잘 알려진 포트, 사용하지 않는 것이 좋음  
+> • FTP - 20, 21  
+> • TELNET - 23  
+> • HTTP - 80  
+> • HTTPS - 443
+
+---
+
+## **DNS**
+
+IP값은 기억하기도 어렵고(192.1\*\*.\*\*\*.1)
+
+IP값은 변경될 수도 있다. (192.1\*\*.\*\*\*.1 -> 192.1\*\*.\*\*\*.2)
+
+그래서 DNS가 나왔다.
+
+> DNS  
+> : 도메인 네임 시스템(Domain Name System)  
+> • 도메인 명을 IP 주소로 변환해준다.
+
+[##_Image|kage@zjKts/btsmQCYc4ey/0kSKN2bpKHqsqg7UwA3iT1/img.png|CDM|1.3|{"originWidth":1263,"originHeight":708,"style":"alignCenter"}_##]
+
+✅ 도메인을 사야함!
+
+1\. 먼저 도메인 명으로 DNS서버에 값을 요청함
+
+2\. 응답 IP를 줌
+
+3\. 접근
+
+IP주소를 기억하지 않아도 되고, IP변경에도 대처할 수 있음
+
+> 요약정리:  
+> 1\. 인터넷 망을 이용해서 정보를 보낼땐 IP프로토콜이 있어야 한다.  
+> 2\. IP프로토콜만 가지고는 메세지의 도착여부를 신뢰하기 어렵고 소실, 순서불일치 등의 문제가 있기 때문에 TCP를 통해 문제를 해결한다.  
+> 3\. 같은 IP안에서 동작하는 어플리케이션을 통신할 때 어떤 어플리케이션의 요청인지 구분하는데 사용된다.  
+> 4\. IP주소의 기억, 수정으로 인한 오류를 해결해준다.
